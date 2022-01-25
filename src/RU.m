@@ -1,20 +1,15 @@
 
-classdef RU < matlab.mixin.SetGet
+classdef RU < Device
     properties
-        NumAntenna
-        Datarate
-        Location
         Queue
         ConnectedUE
     end
     methods
-        function obj = RU(NumAntenna, Datarate, Location)
-            
+        function obj = RU(NumAntenna, Location)
+            obj@Device('RU', Location,[0,0],NumAntenna)
             obj.Queue = [];
             obj.ConnectedUE = [];
-            obj.NumAntenna = NumAntenna;
-            obj.Datarate = Datarate;
-            obj.Location = Location;
+           
         end
         function AddToQueue(obj,UE)
             obj.Queue = [obj.Queue;UE]; 
@@ -25,12 +20,13 @@ classdef RU < matlab.mixin.SetGet
             else
                 UE = obj.Queue(1);
                 if length(obj.Queue) >= 2
-                    obj.Queue = obj.Queue(2:end)
+                    obj.Queue = obj.Queue(2:end);
                 else
-                    obj.Queue = []
+                    obj.Queue = [];
                 end
             end
         end
+        
         function ConnectUE(obj,UE)
             obj.ConnectedUE = [obj.ConnectedUE;UE];
         end
